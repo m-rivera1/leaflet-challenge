@@ -4,7 +4,7 @@
 
 // Create a map object
 var myMap = L.map("map", {
-  center: [15.5994, -28.6731],
+  center: [37.09024, -95.712891],
   zoom: 5,
 });
 
@@ -25,19 +25,19 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   d3.json(queryUrl, function(data) {
     // Once we get a response, send the data.features object to the createFeatures function
     //createFeatures(data.features);
-    console.log(data); 
-  })
+    console.log(data.features); 
+ 
   
   // Add circles to map
-  L.circle(countries[i].location, {    
+  L.circle(data.features), {    
     fillOpacity: 0.75,
     color: "white",
-    fillColor: color,
+    fillColor: "green",
     // Adjust radius
-    radius: countries[i].points * 1500
-    }).bindPopup("<h1>" + countries[i].name + "</h1> <hr> <h3>Points: " + countries[i].points + "</h3>").addTo(myMap);
+    radius: 2000
+    }//.addTo(myMap);
   
-  
+  })
 
 
 
