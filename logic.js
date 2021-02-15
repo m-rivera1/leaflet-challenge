@@ -1,6 +1,32 @@
-// Store our API endpoint inside queryUrl
-//var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=" +
- // "2014-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
+ // Store json data in variable
+ var queryUrl = 	"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+
+// Perform a GET request to the query URL
+d3.json(queryUrl, function(data) {
+  // Once we get a response, send the data.features object to the createFeatures function
+  createFeatures(data.features);
+  console.log(data.features); 
+});
+
+function createFeatures(earthquakeData) { // *** earthquakeData is the DATA coming from up above's query ***
+
+  // Define a function we want to run once for each feature in the features array
+  // Give each feature a popup describing the place and time of the earthquake
+  function onEachFeaturePrep(feature, layer) { // **** GRAB only what is needed from the DATA *****
+    layer.bindPopup("<h3>Magnitude:" + feature.properties.mag + "</h3><h3>Location: " + feature.properties.place +
+      "</h3><hr><p>When" + new Date(feature.properties.time) + "</p>");
+  }
+
+  // Create a GeoJSON layer containing the features array on the earthquakeData object
+  // Run the onEachFeature function once for each piece of data in the array
+  var earthquakes = L.geoJSON(earthquakeData, { // *** CALL the geoJSON function on the DATA
+    onEachFeature: onEachFeaturePrep
+  });
+
+
+
+//var earthquakeData = data.features
+
 
 // Create a map object
 var myMap = L.map("map", {
@@ -17,19 +43,14 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
   }).addTo(myMap)
 
-// Store json data in variable
-  var queryUrl = 	"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"
 
 
-  // Perform a GET request to the query URL
-  d3.json(queryUrl, function(data) {
-    // Once we get a response, send the data.features object to the createFeatures function
-    //createFeatures(data.features);
-    console.log(data.features); 
- 
+
+    
+    
   
   // Add circles to map
-  L.circle(data.features), {    
+  L.circle(earthquakeData.geometry), {    
     fillOpacity: 0.75,
     color: "white",
     fillColor: "green",
@@ -37,9 +58,10 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     radius: 2000
     }//.addTo(myMap);
   
-  })
 
 
 
 
 
+
+  }
