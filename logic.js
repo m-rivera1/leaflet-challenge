@@ -8,7 +8,7 @@ d3.json(queryUrl, function(data) {
   console.log(data.features); 
 
 // establishing variable for magnidude
-var mag = feature.properties.mag
+//var mag = feature.properties.mag
 });
 
   // Create a map object
@@ -37,7 +37,27 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
       "<h3>When: </h3> " + new Date(feature.properties.time))
     }; 
 
-
+  // color based on how deep in the depth in the earth the earthquake was
+//   function circleColor(depth)
+//     var color = " ";
+//     if (feature.geometry.coordinates[3] > 90) {
+//   color = "red";
+//     }
+//     else if (feature.geometry.coordinates[3] > 69 ) {
+//       color = "orange";
+//     }
+//     else if (feature.geometry.coordinates[3]> 49) {
+//       color = "light orange";
+//     }
+//     else if (feature.geometry.coordinates[3]> 29) {
+//       color = "yellow";
+//     }    
+//     else if (feature.geometry.coordinates[3]> 9) {
+//         color = "light yellow";
+//     }
+//     else {
+//       color = "light green";
+// }  
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
@@ -47,15 +67,17 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
         pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {
         	radius: (feature.properties.mag) *5,
-          fillOpacity: 0.85
+          color: "blue",
+          fillOpacity: 0.5
         }).addTo(myMap)
       }
 
   });
 
 
-// function to determine circle color by depth in the earth
-//function circleColor(depth)
+
+
+
 
     // Sending our earthquakes layer to the createMap function
     // makeMap(earthquakes);
