@@ -30,8 +30,8 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
   function onEachFeaturePrep(feature, layer) { // **** GRAB only what is needed from the DATA *****
-    layer.bindPopup("<h3>Magnitude:" + feature.properties.mag + "</h3><h3>Location: " + feature.properties.place +
-      "</h3><hr><p>When" + new Date(feature.properties.time) + "</p>")
+    layer.bindPopup("<h3>Magnitude: </h3>" + feature.properties.mag + "<h3>Location: </h3>" + feature.properties.place +
+      "<h3>When: </h3> " + new Date(feature.properties.time))
     }; 
 
   // function onEachFeaturePrep(feature, layer) { // **** GRAB only what is needed from the DATA *****
@@ -49,7 +49,7 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
   // Run the onEachFeature function once for each piece of data in the array
     var earthquakes = L.geoJSON(earthquakeData, { // *** CALL the geoJSON function on the DATA
         onEachFeature: onEachFeaturePrep,
-  // console.log(feature.properties.mag,feature.properties.place,new Date(feature.properties.time), feature.geometry.coordinates[0],feature.geometry.coordinates[1]);      
+  // Found this pointToLayer function here: https://geospatialresponse.wordpress.com/2015/07/26/leaflet-geojson-pointtolayer/"      
         pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {
         	radius: 10, 
