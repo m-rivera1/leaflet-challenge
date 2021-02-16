@@ -6,6 +6,9 @@ d3.json(queryUrl, function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
   console.log(data.features); 
+
+// establishing variable for magnidude
+var mag = feature.properties.mag
 });
 
   // Create a map object
@@ -34,16 +37,7 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
       "<h3>When: </h3> " + new Date(feature.properties.time))
     }; 
 
-  // function onEachFeaturePrep(feature, layer) { // **** GRAB only what is needed from the DATA *****
-  //   L.circle(feature.geometry.coordinates[0],feature.geometry.coordinates[1]), {    
-  //     fillOpacity: 0.75,
-  //     color: "white",
-  //     fillColor: "green",
-  //     // Adjust radius
-  //    radius: 2000
-  //     }//.addTo(myMap)
-  //     ;
- 
+
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
@@ -52,18 +46,21 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
   // Found this pointToLayer function here: https://geospatialresponse.wordpress.com/2015/07/26/leaflet-geojson-pointtolayer/"      
         pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {
-        	radius: 10, 
-        	fillOpacity: 0.85
+        	radius: (feature.properties.mag) *5,
+          fillOpacity: 0.85
         }).addTo(myMap)
       }
 
   });
 
 
-    // Sending our earthquakes layer to the createMap function
-    makeMap(earthquakes);
+// function to determine circle color by depth in the earth
+//function circleColor(depth)
 
-function makeMap(earthquakes) {}
+    // Sending our earthquakes layer to the createMap function
+    // makeMap(earthquakes);
+
+// function makeMap(earthquakes) {}
 
   // Create a map object
 //   var myMap = L.map("map", {
