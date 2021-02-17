@@ -7,8 +7,6 @@ d3.json(queryUrl, function(data) {
   createFeatures(data.features);
   console.log(data.features); 
 
-// establishing variable for magnidude
-//var mag = feature.properties.mag
 });
 
   // Create a map object
@@ -26,59 +24,17 @@ d3.json(queryUrl, function(data) {
     accessToken: API_KEY
   }).addTo(myMap)
 
-  //function circleColor(depth)
-    // color based on how deep in the depth in the earth the earthquake was
-  
-  // function circleColor(depth) {
-  //   var color = "";
-  //   if (feature.geometry.coordinates[3] > 90) {
-  //     color = "red";
-  //   }
-  //   else if (feature.geometry.coordinates[3] > 69 ) {
-  //     color = "orange";
-  //   }
-  //   else if (feature.geometry.coordinates[3]> 49) {
-  //     color = "light orange";
-  //   }
-  //   else if (feature.geometry.coordinates[3]> 29) {
-  //     color = "yellow";
-  //   }    
-  //   else if (feature.geometry.coordinates[3]> 9) {
-  //       color = "light yellow";
-  //   }
-  //   else {
-  //     color = "light green";
-  //   }
+
 function createFeatures(earthquakeData) { // *** earthquakeData is the DATA coming from up above's query ***
 
   // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
   function onEachFeaturePrep(feature, layer) { // **** GRAB only what is needed from the DATA *****
     layer.bindPopup("<h3>Magnitude: </h3>" + feature.properties.mag + "<h3>Location: </h3>" + feature.properties.place +
-      "<h3>When: </h3> " + new Date(feature.properties.time))
+      "<h3>When: </h3> " + new Date(feature.properties.time) + "<h3> Depth: </h3>" + feature.geometry.coordinates[2] + ' km')
     }; 
 
-  // color based on how deep in the depth in the earth the earthquake was
-//   function circleColor(depth)
-//     var color = " ";
-//     if (feature.geometry.coordinates[3] > 90) {
-//   color = "red";
-//     }
-//     else if (feature.geometry.coordinates[3] > 69 ) {
-//       color = "orange";
-//     }
-//     else if (feature.geometry.coordinates[3]> 49) {
-//       color = "light orange";
-//     }
-//     else if (feature.geometry.coordinates[3]> 29) {
-//       color = "yellow";
-//     }    
-//     else if (feature.geometry.coordinates[3]> 9) {
-//         color = "light yellow";
-//     }
-//     else {
-//       color = "light green";
-// }  
+   
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
@@ -88,45 +44,55 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
         pointToLayer: function(feature, latlng) {
         return new L.CircleMarker(latlng, {
         	radius: (feature.properties.mag) *5,
-          color: "blue",
+          fillColor: circleColor(feature.geometry.coordinates[2]),
+          color: "black",
           fillOpacity: 0.5,
           weight: .5,
-
-
+          stroke: true,
         }).addTo(myMap)
+        consolelog(circleColor)
       }
-
+        
   });
 
-// Set up the legend
-var legend = L.control({ position: "bottomright" });
-  legend.onAdd = function() {
-    var div = L.DomUtil.create("div", "info legend");
-    var limits = feature.options.limits;
-    var colors = feature.options.colors;
-    var labels = [];
 
-    // Add min & max
-    var legendInfo =   
-      "<div class=\"labels\">" +
-        "<div class=\"min\">" + limits[0] + "</div>" +
-        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-      "</div>";
+  }
+// // Set up the legend
+// var legend = L.control({ position: "bottomright" });
+//   legend.onAdd = function() {
+//     var div = L.DomUtil.create("div", "info legend");
+//     var limits = feature.options.limits;
+//     var colors = feature.options.colors;
+//     var labels = [];
 
-    div.innerHTML = legendInfo;
+//     // Add min & max
+//     var legendInfo =   
+//       "<div class=\"labels\">" +
+//         "<div class=\"min\">" + limits[0] + "</div>" +
+//         "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+//       "</div>";
 
-    limits.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
+//     div.innerHTML = legendInfo;
 
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-  };
+//     limits.forEach(function(limit, index) {
+//       labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+//     });
 
-  // Adding legend to the map
-  legend.addTo(myMap);
+//     div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+//     return div;
+//   };
 
-}
+//   // Adding legend to the map
+//   legend.addTo(myMap);
+
+  // color based on how deep in the depth in the earth the earthquake was  
+  function circleColor(depth) {
+    return depth > 90?'red':
+    depth > 69?'orange':
+    depth > 49?'blue':
+    depth > 29?'yellow':
+    depth > 9?'pink':
+    'white';
 
 
 
@@ -153,4 +119,4 @@ var legend = L.control({ position: "bottomright" });
 //     accessToken: API_KEY
 //   }).addTo(myMap)
 // }
-   
+}
