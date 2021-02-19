@@ -53,10 +53,8 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
 
   
 });
-// color based on how deep in the depth in the earth the earthquake was
-
-
-// function circleColor(depth) {  //my inital attempt
+// color based on how deep in the depth in the earth the earthquake was  
+// function circleColor(depth) {
 //   return depth > 90?'red':
 //   depth > 69?'orange':
 //   depth > 49?'blue':
@@ -64,7 +62,7 @@ function createFeatures(earthquakeData) { // *** earthquakeData is the DATA comi
 //   depth > 9?'pink':
 //   'purple';
 
-  function circleColor(depth) {    //this variation found here: https://www.igismap.com/legend-in-leafletjs-map-with-topojson/
+  function circleColor(depth) {
     return depth > 90?'#800026':
            depth > 69?'#BD0026':
            depth > 49?'#E31A1C':
@@ -88,7 +86,10 @@ legend.onAdd = function(map) {
 for (var i = 0; i < grades.length; i++) {
     div.innerHTML += '<i style="background:' + circleColor(grades[i]) + '"></i> ' +
     grades[i] + '<br>' ;
-
+    // div.innerHTML += '<i style="background:' + circleColor(grades[i] +1) + '"></i> ' +
+    // grades[i] + '<br>' ;    
+    // div.innerHTML += '<i style=”background:' + circleColor(grades[i] + 1) + '"></i> ' + grades[i] + 
+    //                   (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
   }
   return div;
   };
@@ -97,6 +98,9 @@ for (var i = 0; i < grades.length; i++) {
 // Adding legend to the map
 legend.addTo(myMap);
   
+
+
+
  }
  
   
