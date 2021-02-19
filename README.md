@@ -55,5 +55,5 @@ Create a legend that will provide context for your map data.
 
 Your visualization should look something like the map below:
 
-<img src="leaflet-challenge\images\BasicMap.png">
+<img src="https://m-rivera1.github.io/leaflet-challenge/images/BasicMap.png">
 
